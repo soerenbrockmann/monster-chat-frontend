@@ -1,37 +1,30 @@
-import React from 'react';
-import Header from '../header/Header.jsx';
-import image1 from '../../assets/image1.jpg';
-import image2 from '../../assets/image2.jpg';
-
+import React, { Component } from 'react';
 import './App.css';
+import List from '../list/List';
+import InputToDo from '../inputToDo/InputToDo';
 
-class App extends React.Component {
+class App extends Component {
   state = {
-    selectedImg: image1,
-    title: '',
+    listItem: [],
+    inputValue: '',
   };
 
-  switchImage = () => {
-    this.setState({ selectedImg: image2 });
+  addItem = (event) => {
+    this.setState({
+      listItem: [...this.state.listItem, this.state.inputValue],
+    });
+    event.preventDefault();
   };
 
-  toogleTitle = () => {
-    if (this.state.title.trim().length < 1) {
-      this.setState({ title: 'Monster Chat' });
-    } else {
-      this.setState({ title: '' });
-    }
+  setInputValue = (event) => {
+    this.setState({ inputValue: event.target.value });
   };
 
   render() {
     return (
       <div className='App'>
-        <Header
-          title={this.state.title}
-          iconUrl={this.state.selectedImg}
-          switchImage={this.switchImage}
-          toogleTitle={this.toogleTitle}
-        />
+        <InputToDo addItem={this.addItem} inputValue={this.state.inputValue} setInputValue={this.setInputValue} />
+        <List listItem={this.state.listItem} addItem={this.addItem} />
       </div>
     );
   }
