@@ -1,30 +1,52 @@
 import React, { Component } from 'react';
-import './App.css';
-import List from '../list/List';
-import InputToDo from '../inputToDo/InputToDo';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import './App.module.css';
+import Header from '../header/Header';
+import LandingPage from '../landingPage/LandingPage';
+import Signup from '../signup/Signup';
+import Login from '../login/Login';
+
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+    </div>
+  );
+}
 
 class App extends Component {
-  state = {
-    listItem: [],
-    inputValue: '',
-  };
+  state = { auth: false };
 
-  addItem = (event) => {
-    this.setState({
-      listItem: [...this.state.listItem, this.state.inputValue],
-    });
-    event.preventDefault();
-  };
-
-  setInputValue = (event) => {
-    this.setState({ inputValue: event.target.value });
+  setAuth = (auth) => {
+    this.setState({ auth });
   };
 
   render() {
     return (
-      <div className='App'>
-        <InputToDo addItem={this.addItem} inputValue={this.state.inputValue} setInputValue={this.setInputValue} />
-        <List listItem={this.state.listItem} addItem={this.addItem} />
+      <div className='root'>
+        <Router>
+          <Header auth={this.state.auth} />
+          <Switch>
+            <Route exact path='/'>
+              <LandingPage />
+            </Route>
+            <Route path='/signup'>
+              <Signup />
+            </Route>
+            <Route path='/login'>
+              <Login setAuth={this.setAuth} />
+            </Route>
+            <Route path='*'>
+              <NoMatch />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
