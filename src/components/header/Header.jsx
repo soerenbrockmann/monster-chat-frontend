@@ -41,11 +41,10 @@ class Header extends Component {
 
   render() {
     const { classes, auth } = this.props;
-
     const open = Boolean(this.state.anchorEl);
 
     return (
-      <div className={classes.root}>
+      <div className={this.props.classes.root}>
         <AppBar position='static' color='transparent'>
           <Toolbar>
             <Typography align='left' component={RouterLink} to='/' variant='h6' className={classes.title}>

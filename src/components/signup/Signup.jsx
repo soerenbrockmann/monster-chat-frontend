@@ -77,12 +77,15 @@ class Signup extends Component {
       return;
     }
     try {
-      await axios.post('http://localhost:3000/api/users/signup', {
+      const res = await axios.post('http://localhost:3000/api/users/signup', {
         username: this.state.email,
         password: this.state.password,
       });
+
+      console.log(res);
       this.setState({ toLogin: true });
     } catch (error) {
+      console.log(error.message);
       this.setState({ error: error.message, snackbarOpen: true });
     }
   };
@@ -99,6 +102,7 @@ class Signup extends Component {
             {this.state.error}
           </Alert>
         </Snackbar>
+
         <Paper elevation={3} className={classes.paper}>
           <Typography margin='normal' align='left' variant='h3' className={classes.title}>
             Sign Up!
