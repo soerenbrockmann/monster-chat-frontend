@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import axios from 'axios';
 import './App.module.css';
 import Header from '../header/Header';
 import LandingPage from '../landingPage/LandingPage';
@@ -23,6 +23,16 @@ function NoMatch() {
 class App extends Component {
   state = { auth: false };
 
+  async componentDidMount() {
+    console.log('Called componentDidMount');
+
+    try {
+      await axios.get('http://localhost:3000/api/users/isAuthenticated');
+      this.setAuth(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   setAuth = (auth) => {
     this.setState({ auth });
   };

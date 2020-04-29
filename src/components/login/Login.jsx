@@ -70,10 +70,15 @@ class Login extends Component {
     }
 
     try {
-      const res = await axios.post('http://localhost:3000/api/users/login', {
-        username: this.state.email,
-        password: this.state.password,
-      });
+      await axios.post(
+        'http://localhost:3000/api/users/login',
+        {
+          username: this.state.email,
+          password: this.state.password,
+        },
+        { withCredentials: true }
+      );
+
       this.props.setAuth(true);
       this.setState({ toDashboard: true });
     } catch (error) {
@@ -85,6 +90,7 @@ class Login extends Component {
     if (this.state.toDashboard) {
       return <Redirect to='/dashboard' />;
     }
+
     const { classes } = this.props;
     return (
       <div className={classes.root}>
