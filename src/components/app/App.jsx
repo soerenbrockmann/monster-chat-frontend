@@ -48,7 +48,7 @@ class App extends Component {
     return (
       <div className='root'>
         <Router>
-          <Header auth={this.state.auth} />
+          <Header auth={this.state.auth} setAuth={this.setAuth} />
 
           <Switch>
             <Route exact path='/'>

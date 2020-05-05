@@ -39,6 +39,16 @@ class Header extends Component {
     this.setAnchorEl(null);
   };
 
+  logout = async () => {
+    this.handleClose();
+    try {
+      await axios.get('http://localhost:3000/api/users/logout', { withCredentials: true });
+      this.props.setAuth(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     const { classes, auth } = this.props;
     const open = Boolean(this.state.anchorEl);
@@ -89,7 +99,7 @@ class Header extends Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={this.logout}>Logout</MenuItem>
                 </Menu>
               </Fragment>
             )}
