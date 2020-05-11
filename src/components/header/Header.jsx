@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
-// import axios from 'axios';
+import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 
 const styles = {
@@ -100,7 +100,9 @@ class Header extends Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.logout}>Logout</MenuItem>
+                  <MenuItem onClick={this.logout} component={RouterLink} to='/'>
+                    Logout
+                  </MenuItem>
                 </Menu>
               </Fragment>
             )}
