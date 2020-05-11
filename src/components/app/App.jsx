@@ -7,6 +7,7 @@ import Header from '../header/Header';
 import LandingPage from '../landingPage/LandingPage';
 import Signup from '../signup/Signup';
 import Login from '../login/Login';
+import Profile from '../profile/Profile';
 
 function NoMatch() {
   let location = useLocation();
@@ -36,14 +37,6 @@ class App extends Component {
     this.setState({ auth });
   };
 
-  // Component 1: State = {stateName: 'Hiu'}
-  // Use state in Component 2 and
-  // Modify State in Component 3
-
-  // Component 1: Renders  <Component2 name={this.state.stateName} age="10">
-
-  // Component 2: <h1>{this.props.name}</h1>
-
   render() {
     return (
       <div className='root'>
@@ -61,6 +54,10 @@ class App extends Component {
 
             <Route path='/login'>
               <Login setAuth={this.setAuth} />
+            </Route>
+
+            <Route path='/profile'>
+              <Profile />
             </Route>
 
             <Route path='*'>
