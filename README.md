@@ -42,3 +42,27 @@ Inside "src" folder:
 - If not auth, then show Login and Logout button
 
 25. Pass setAuth function to Login component and call it with argument "true" after successful login.
+26. Implement redirect to /dashboard after successful login
+
+27. Implement /logout
+
+28. Implement profile form
+
+- Store images on file system
+- Add image path to DB
+
+29. Implement logic to save or update profile form
+
+30. Display users on chat page
+31. Implement logic to fetch all available users
+
+32. Implement chat message window
+33. Implement logic to fetch messages
+
+34. Implement logic to fetch messages on scroll (kind of pagination) (Optional)
+
+35. Implement input to enter chat message
+36. Implement logic to send message (Socket.io)
+
+37. Implement logic for one-on-one chat (Optional)
+    Done!
