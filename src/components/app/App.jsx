@@ -7,6 +7,7 @@ import Header from '../header/Header';
 import LandingPage from '../landingPage/LandingPage';
 import Signup from '../signup/Signup';
 import Login from '../login/Login';
+import Profile from '../profile/Profile';
 
 function NoMatch() {
   let location = useLocation();
@@ -55,6 +56,10 @@ class App extends Component {
 
             <Route path='/login'>
               <Login setAuth={this.setAuth} />
+            </Route>
+
+            <Route path='/profile'>
+              <Profile />
             </Route>
 
             <Route path='*'>

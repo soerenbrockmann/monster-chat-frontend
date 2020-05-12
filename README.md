@@ -51,6 +51,15 @@ Inside "src" folder:
 - Store images on file system
 - Add image path to DB
 
+a. Adding new profile component
+b. Extend routing
+c. On Profile page display title, name, avatar and file upload input fields
+d. Add submit button
+e. Add submit logic. Use FormData library to append input fields to submit them to API PUT /profile
+f. Add lifecycle method to fetch profile data on profile access and page reload
+g. Implement fetch profile logic to fetch profile data from API GET /profile
+h.
+
 29. Implement logic to save or update profile form
 
 30. Display users on chat page
