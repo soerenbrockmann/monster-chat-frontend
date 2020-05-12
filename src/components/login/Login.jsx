@@ -41,6 +41,7 @@ class Login extends Component {
     snackbarOpen: false,
     error: '',
     toLogin: false,
+    toDashboard: false,
   };
 
   handleClose = (event, reason) => {

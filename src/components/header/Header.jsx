@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
+import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 
 const styles = {
@@ -39,12 +40,22 @@ class Header extends Component {
     this.setAnchorEl(null);
   };
 
+  logout = async () => {
+    this.handleClose();
+    try {
+      await axios.get('http://localhost:3000/api/users/logout', { withCredentials: true });
+      this.props.setAuth(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     const { classes, auth } = this.props;
     const open = Boolean(this.state.anchorEl);
 
     return (
-      <div className={this.props.classes.root}>
+      <div className={classes.root}>
         <AppBar position='static' color='transparent'>
           <Toolbar>
             <Typography align='left' component={RouterLink} to='/' variant='h6' className={classes.title}>
@@ -91,7 +102,9 @@ class Header extends Component {
                   <MenuItem onClick={this.handleClose} component={RouterLink} to='/profile'>
                     Profile
                   </MenuItem>
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={this.logout} component={RouterLink} to='/'>
+                    Logout
+                  </MenuItem>
                 </Menu>
               </Fragment>
             )}

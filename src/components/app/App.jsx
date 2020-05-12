@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-import './App.module.css';
+
 import Header from '../header/Header';
 import LandingPage from '../landingPage/LandingPage';
 import Signup from '../signup/Signup';
@@ -26,8 +26,10 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      await axios.get('http://localhost:3000/api/users/isAuthenticated', { withCredentials: true });
-      this.setAuth(true);
+      const res = await axios.get('http://localhost:3000/api/users/isAuthenticated', { withCredentials: true });
+      if (res?.data?.sucess) {
+        this.setAuth(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -39,9 +41,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className='root'>
+      <div>
         <Router>
-          <Header auth={this.state.auth} />
+          <Header auth={this.state.auth} setAuth={this.setAuth} />
 
           <Switch>
             <Route exact path='/'>
