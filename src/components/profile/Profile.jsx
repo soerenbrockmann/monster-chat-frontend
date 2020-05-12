@@ -4,14 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -69,7 +66,6 @@ class Profile extends Component {
   state = {
     name: '',
     file: null,
-    isNewFile: false,
     fileBlob: null,
     snackbarOpen: false,
     error: '',
@@ -84,6 +80,7 @@ class Profile extends Component {
       this.setState({ file: res.data.avatar });
     }
   }
+
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -98,7 +95,6 @@ class Profile extends Component {
 
   setFile = (event) => {
     this.setState({
-      isNewFile: true,
       file: URL.createObjectURL(event.target.files[0]),
       fileBlob: event.target.files[0],
     });
@@ -122,7 +118,6 @@ class Profile extends Component {
       formData.append('avatar', this.state.fileBlob, this.state.fileBlob.name);
     }
     formData.append('name', this.state.name);
-    formData.append('isNewFile', this.state.isNewFile);
 
     try {
       await axios.put('http://localhost:3000/api/users/profile', formData, {
@@ -134,10 +129,6 @@ class Profile extends Component {
   };
 
   render() {
-    if (this.state.toDashboard) {
-      return <Redirect to='/dashboard' />;
-    }
-
     const { classes } = this.props;
     return (
       <div className={classes.root}>
