@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState, Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,109 +9,96 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
+import { useStyles } from './styles';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-    marginBottom: '1rem',
-  },
-  title: {
-    flexGrow: 1,
-    color: '#000',
-    textDecoration: 'none',
-  },
-};
+const Header = (props) => {
+  const [anchorEl, setAnchorEl] = useState(null);
 
-class Header extends Component {
-  state = {
-    anchorEl: null,
+  const handleAnchorEl = (anchorEl) => {
+    setAnchorEl(anchorEl);
   };
 
-  setAnchorEl = (anchorEl) => {
-    this.setState({ anchorEl });
+  const handleMenu = (event) => {
+    handleAnchorEl(event.currentTarget);
   };
 
-  handleMenu = (event) => {
-    this.setAnchorEl(event.currentTarget);
+  const handleClose = () => {
+    handleAnchorEl(null);
   };
 
-  handleClose = () => {
-    this.setAnchorEl(null);
-  };
-
-  logout = async () => {
-    this.handleClose();
+  const logout = async () => {
+    handleClose();
     try {
       await axios.get('http://localhost:3000/api/users/logout', { withCredentials: true });
-      this.props.setAuth(false);
+      props.setAuth(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  render() {
-    const { classes, auth } = this.props;
-    const open = Boolean(this.state.anchorEl);
+  const classes = useStyles();
+  const { auth } = props;
 
-    return (
-      <div className={classes.root}>
-        <AppBar position='static' color='transparent'>
-          <Toolbar>
-            <Typography align='left' component={RouterLink} to='/' variant='h6' className={classes.title}>
-              Monster Chat
-            </Typography>
-            {!auth && (
-              <Fragment>
-                <Button color='inherit' component={RouterLink} to='/login'>
-                  Login
-                </Button>
+  const open = Boolean(anchorEl);
 
-                <Button color='inherit' component={RouterLink} to='/signup'>
-                  Sign up
-                </Button>
-              </Fragment>
-            )}
+  return (
+    <div className={classes.root}>
+      <AppBar position='static' color='transparent'>
+        <Toolbar>
+          <Typography align='left' component={RouterLink} to='/' variant='h6' className={classes.title}>
+            Monster Chat
+          </Typography>
+          {!auth && (
+            <Fragment>
+              <Button color='inherit' component={RouterLink} to='/login'>
+                Login
+              </Button>
 
-            {auth && (
-              <Fragment>
-                <IconButton
-                  aria-label='account of current user'
-                  aria-controls='menu-appbar'
-                  aria-haspopup='true'
-                  onClick={this.handleMenu}
-                  color='inherit'
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id='menu-appbar'
-                  anchorEl={this.state.anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose} component={RouterLink} to='/profile'>
-                    Profile
-                  </MenuItem>
-                  <MenuItem onClick={this.logout} component={RouterLink} to='/'>
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </Fragment>
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
+              <Button color='inherit' component={RouterLink} to='/signup'>
+                Sign up
+              </Button>
+            </Fragment>
+          )}
 
-export default withStyles(styles)(Header);
+          {auth && (
+            <Fragment>
+              <IconButton
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleMenu}
+                color='inherit'
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id='menu-appbar'
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose} component={RouterLink} to='/profile'>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={logout} component={RouterLink} to='/'>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Fragment>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
+
+export default Header;

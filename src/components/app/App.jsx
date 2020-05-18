@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
@@ -21,55 +21,57 @@ function NoMatch() {
   );
 }
 
-class App extends Component {
-  state = { auth: false };
+const App = () => {
+  const [auth, setAuth] = useState(false);
 
-  async componentDidMount() {
+  useEffect(() => {
+    checkAuthentication();
+  });
+
+  const checkAuthentication = async () => {
     try {
       const res = await axios.get('http://localhost:3000/api/users/isAuthenticated', { withCredentials: true });
       if (res?.data?.sucess) {
-        this.setAuth(true);
+        setAuth(true);
       }
     } catch (error) {
       console.log(error);
     }
-  }
-
-  setAuth = (auth) => {
-    this.setState({ auth });
   };
 
-  render() {
-    return (
-      <div>
-        <Router>
-          <Header auth={this.state.auth} setAuth={this.setAuth} />
+  const handleAuth = (auth) => {
+    setAuth(auth);
+  };
 
-          <Switch>
-            <Route exact path='/'>
-              <LandingPage />
-            </Route>
+  return (
+    <div>
+      <Router>
+        <Header auth={auth} setAuth={handleAuth} />
 
-            <Route path='/signup'>
-              <Signup />
-            </Route>
+        <Switch>
+          <Route exact path='/'>
+            <LandingPage />
+          </Route>
 
-            <Route path='/login'>
-              <Login setAuth={this.setAuth} />
-            </Route>
+          <Route path='/signup'>
+            <Signup />
+          </Route>
 
-            <Route path='/profile'>
-              <Profile />
-            </Route>
+          <Route path='/login'>
+            <Login setAuth={handleAuth} />
+          </Route>
 
-            <Route path='*'>
-              <NoMatch />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
-}
+          <Route path='/profile'>
+            <Profile />
+          </Route>
+
+          <Route path='*'>
+            <NoMatch />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
+};
 
 export default App;
