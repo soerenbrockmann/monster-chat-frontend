@@ -10,18 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
-
-const styles = {
-  root: {
-    flexGrow: 1,
-    marginBottom: '1rem',
-  },
-  title: {
-    flexGrow: 1,
-    color: '#000',
-    textDecoration: 'none',
-  },
-};
+import { styles } from './styles';
 
 class Header extends Component {
   state = {
@@ -99,6 +88,9 @@ class Header extends Component {
                   open={open}
                   onClose={this.handleClose}
                 >
+                  <MenuItem onClick={this.handleClose} component={RouterLink} to='/chat'>
+                    Chat
+                  </MenuItem>
                   <MenuItem onClick={this.handleClose} component={RouterLink} to='/profile'>
                     Profile
                   </MenuItem>

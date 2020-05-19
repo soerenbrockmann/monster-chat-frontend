@@ -41,7 +41,7 @@ class Login extends Component {
     snackbarOpen: false,
     error: '',
     toLogin: false,
-    toDashboard: false,
+    toChat: false,
   };
 
   handleClose = (event, reason) => {
@@ -81,15 +81,15 @@ class Login extends Component {
       );
 
       this.props.setAuth(true);
-      this.setState({ toDashboard: true });
+      this.setState({ toChat: true });
     } catch (error) {
       this.setState({ error: error.message, snackbarOpen: true });
     }
   };
 
   render() {
-    if (this.state.toDashboard) {
-      return <Redirect to='/dashboard' />;
+    if (this.state.toChat) {
+      return <Redirect to='/chat' />;
     }
 
     const { classes } = this.props;
