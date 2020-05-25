@@ -11,9 +11,16 @@ class Message extends Component {
     const { classes, message, isMyMessage } = this.props;
     return (
       <Fragment>
-        <Paper variant='elevation' className={`${classes.message} ${isMyMessage ? classes.myMessage : ''}`}>
-          {message.text}
-        </Paper>
+        {isMyMessage && (
+          <Paper variant='elevation' className={`${classes.message} ${classes.myMessage}`}>
+            {message.text}
+          </Paper>
+        )}
+        {!isMyMessage && (
+          <Paper variant='elevation' className={`${classes.message}`}>
+            {message.userName}: {message.text}
+          </Paper>
+        )}
       </Fragment>
     );
   }

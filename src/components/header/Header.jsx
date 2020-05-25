@@ -33,7 +33,7 @@ class Header extends Component {
     this.handleClose();
     try {
       await axios.get('http://localhost:3000/api/users/logout', { withCredentials: true });
-      this.props.setAuth(false);
+      this.props.setUser(false, null);
     } catch (error) {
       console.log(error);
     }

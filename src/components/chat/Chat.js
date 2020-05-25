@@ -14,62 +14,33 @@ import { styles } from './styles';
 class Chat extends Component {
   constructor() {
     super();
-    this.socket = io('http://localhost:3000');
+    this.state = {
+      chatMessages: [],
+      inputMessage: '',
+    };
   }
-  state = {
-    myUserId: '1',
-    chatMessages: [
-      {
-        id: 1,
-        userId: '1',
-        text: 'Hi Pete. What a sunny day!',
-        date: Date.now(),
-      },
-      {
-        id: 2,
-        userId: '2',
-        text: 'Hi there',
-        date: Date.now(),
-      },
-      {
-        id: 3,
-        userId: '1',
-        text: "What's Up",
-        date: Date.now(),
-      },
-      {
-        id: 4,
-        userId: '2',
-        text: 'Not bad, thanks!',
-        date: Date.now(),
-      },
-      {
-        id: 5,
-        userId: '2',
-        text: 'Not bad, thanks!',
-        date: Date.now(),
-      },
-      {
-        id: 6,
-        userId: '1',
-        text: 'Not bad, thanks!',
-        date: Date.now(),
-      },
-      {
-        id: 7,
-        userId: '1',
-        text: 'Not bad, thanks!',
-        date: Date.now(),
-      },
-      {
-        id: 8,
-        userId: '2',
-        text: 'Not bad, thanks!',
-        date: Date.now(),
-      },
-    ],
-    inputMessage: '',
-  };
+
+  componentDidMount() {
+    this.socket = io('http://localhost:3000');
+    this.socket.on('chat message', (chatDetails) => {
+      this.setState({
+        chatMessages: [
+          ...this.state.chatMessages,
+          {
+            text: chatDetails.msg,
+            userId: chatDetails.userId,
+            userName: chatDetails.userName,
+          },
+        ],
+        inputMessage: '',
+      });
+    });
+    this.socket.on('chat history', (chat) => {
+      this.setState({
+        chatMessages: chat,
+      });
+    });
+  }
 
   handleInputMessage = (event) => {
     this.setState({ inputMessage: event.target.value });
@@ -77,18 +48,12 @@ class Chat extends Component {
 
   sendMessage = () => {
     this.socket.emit('chat message', this.state.inputMessage);
-    this.socket.on('chat message', (msg) => {
-      this.setState({
-        chatMessages: [...this.state.chatMessages, { id: 9, text: msg, userId: this.state.myUserId, date: Date.now() }],
-        inputMessage: '',
-      });
-    });
   };
 
   render() {
     const { classes } = this.props;
     const renderMessages = this.state.chatMessages.map((message, index) => {
-      const isMyMessage = this.state.myUserId === message.userId;
+      const isMyMessage = this.props.userId === message.userId;
       return (
         <Grid item className={isMyMessage ? classes.myMessage : ''} key={index}>
           <Message message={message} isMyMessage={isMyMessage} />

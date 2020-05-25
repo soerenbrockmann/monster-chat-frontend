@@ -33,7 +33,7 @@ Inside "src" folder:
 
 19. Duplicate Sign Up component and replace Sign Up with Login. Also rename signup inside the component with or login.
 20. Change title and implement request to /api/users/login route
-21. In App component, create state value auth and define a setState function setAuth
+21. In App component, create state value auth and define a setState function setUser
 22. In App component, pass state value auth to the Header component
 
 23. In Header component, implement conditional rendering.
@@ -41,7 +41,7 @@ Inside "src" folder:
 - If auth, then show icon button with Profile and Logout menu
 - If not auth, then show Login and Logout button
 
-25. Pass setAuth function to Login component and call it with argument "true" after successful login.
+25. Pass setUser function to Login component and call it with argument "true" after successful login.
 26. Implement redirect to /dashboard after successful login
 
 27. Implement /logout

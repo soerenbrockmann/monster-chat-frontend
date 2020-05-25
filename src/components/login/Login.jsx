@@ -71,7 +71,7 @@ class Login extends Component {
     }
 
     try {
-      await axios.post(
+      const res = await axios.post(
         'http://localhost:3000/api/users/login',
         {
           username: this.state.email,
@@ -80,7 +80,7 @@ class Login extends Component {
         { withCredentials: true }
       );
 
-      this.props.setAuth(true);
+      this.props.setUser(true, res.data.userId);
       this.setState({ toChat: true });
     } catch (error) {
       this.setState({ error: error.message, snackbarOpen: true });
