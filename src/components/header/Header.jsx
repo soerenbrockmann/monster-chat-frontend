@@ -44,7 +44,7 @@ class Header extends Component {
     this.handleClose();
     try {
       await axios.get('http://localhost:3000/api/users/logout', { withCredentials: true });
-      this.props.setAuth(false);
+      this.props.setUser(false);
     } catch (error) {
       console.log(error);
     }
@@ -99,6 +99,9 @@ class Header extends Component {
                   open={open}
                   onClose={this.handleClose}
                 >
+                  <MenuItem onClick={this.handleClose} component={RouterLink} to='/chat'>
+                    Chat
+                  </MenuItem>
                   <MenuItem onClick={this.handleClose} component={RouterLink} to='/profile'>
                     Profile
                   </MenuItem>

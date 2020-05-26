@@ -8,6 +8,7 @@ import LandingPage from '../landingPage/LandingPage';
 import Signup from '../signup/Signup';
 import Login from '../login/Login';
 import Profile from '../profile/Profile';
+import Chat from '../chat/Chat';
 
 function NoMatch() {
   let location = useLocation();
@@ -22,28 +23,28 @@ function NoMatch() {
 }
 
 class App extends Component {
-  state = { auth: false };
+  state = { user: { auth: false, userId: null } };
 
   async componentDidMount() {
     try {
       const res = await axios.get('http://localhost:3000/api/users/isAuthenticated', { withCredentials: true });
       if (res?.data?.sucess) {
-        this.setAuth(true);
+        this.setUser(true, res.data.userId);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  setAuth = (auth) => {
-    this.setState({ auth });
+  setUser = (auth, userId) => {
+    this.setState({ user: { auth, userId } });
   };
 
   render() {
     return (
       <div>
         <Router>
-          <Header auth={this.state.auth} setAuth={this.setAuth} />
+          <Header auth={this.state.user.auth} setUser={this.setUser} />
 
           <Switch>
             <Route exact path='/'>
@@ -55,11 +56,15 @@ class App extends Component {
             </Route>
 
             <Route path='/login'>
-              <Login setAuth={this.setAuth} />
+              <Login setUser={this.setUser} />
             </Route>
 
             <Route path='/profile'>
               <Profile />
+            </Route>
+
+            <Route path='/chat'>
+              <Chat userId={this.state.user.userId} />
             </Route>
 
             <Route path='*'>

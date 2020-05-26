@@ -41,7 +41,7 @@ class Login extends Component {
     snackbarOpen: false,
     error: '',
     toLogin: false,
-    toDashboard: false,
+    toChat: false,
   };
 
   handleClose = (event, reason) => {
@@ -71,7 +71,7 @@ class Login extends Component {
     }
 
     try {
-      await axios.post(
+      const res = await axios.post(
         'http://localhost:3000/api/users/login',
         {
           username: this.state.email,
@@ -80,16 +80,16 @@ class Login extends Component {
         { withCredentials: true }
       );
 
-      this.props.setAuth(true);
-      this.setState({ toDashboard: true });
+      this.props.setUser(true, res.data.userId);
+      this.setState({ toChat: true });
     } catch (error) {
       this.setState({ error: error.message, snackbarOpen: true });
     }
   };
 
   render() {
-    if (this.state.toDashboard) {
-      return <Redirect to='/dashboard' />;
+    if (this.state.toChat) {
+      return <Redirect to='/chat' />;
     }
 
     const { classes } = this.props;
